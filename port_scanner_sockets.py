@@ -45,7 +45,7 @@ while True:
 #define the port scanner to create the socket
 def scan(port):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.settimeout(0.5)
+    s.settimeout(0.3)
     try:
         con =s.connect((host, port))
         with print_lock:
@@ -62,7 +62,7 @@ def threader():
         scan(worker)
         q.task_done()
 
-for x in range(100):
+for x in range(250):
     t = threading.Thread(target=threader)
     t.daemon = True
     t.start()
@@ -74,5 +74,6 @@ for worker in range(port_min, port_max + 1):
     q.put(worker)
 q.join()
 
+print("Scan complete:"
 print('Entire job took:',time.time()-start)
 #
